@@ -7,9 +7,50 @@ const config = require('../config')
 let connection = mysql.createConnection(config.db)
 
 
-/* GET home page. */
-router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
-});
+router.post('/register', (req, res) => {
+  const checkEmailQuery = `SELECT * FROM users WHERE email = ?`
+  connection.query(checkEmailQuery, [req.body.email], (error, results) => {
+    if (error) { throw error }
+
+    if (results.length === 0) {
+      const insertUserQuery = `INSERT INTO users (firstName,lastName,email,password)
+      VALUES (?,?,?,?)`
+      res.json({
+        msg: "userAdded"
+      })
+      const password = bcrypt.hashSync(req.body.password)
+      connection.query(insertUserQuery, [req.body.firstName, req.body.lastName, req.body.email, password])
+    } else {
+      res.json({
+        msg: "userExists"
+      })
+    }
+  })
+})
+
+router.post('/login', (req, res) => {
+  const email = req.body.email
+  const password = req.body.password
+  const checkEmailQuery = `SELECT * FROM users WHERE email = ?`
+  connection.query(checkEmailQuery, [email], (error, results) => {
+    if (error) { throw error }
+    if (results.length === 0) {
+      res.json({
+        msg:"badEmail"
+      })
+    }else{
+      const checkHash = bcrypt.compareSync(password, results[0].password)
+      if(checkHash){
+        res.json({
+          msg:"loginSuccess"
+        })
+      }else{
+        res.json({
+          msg:"badPassword"
+        })
+      }
+    }
+  })
+})
 
 module.exports = router;
