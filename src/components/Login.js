@@ -4,9 +4,11 @@ import { bindActionCreators } from 'redux';
 import loginAction from '../actions/loginAction'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
+import Swal from 'sweetalert2'
 
-class Login extends Component{
-    constructor(){
+
+class Login extends Component {
+    constructor() {
         super()
         this.state = {
             msg: "",
@@ -14,26 +16,37 @@ class Login extends Component{
         }
     }
 
-    componentWillReceiveProps(newProps){
-        if(newProps.login.msg === "badEmail"){
+    componentWillReceiveProps(newProps) {
+        if (newProps.login.msg === "badEmail") {
             this.setState({
                 showAlert: true,
                 title: "Email not found.",
-                text:"Email is not registered, please register or use a diferent email."
+                text: "Email is not registered, please register or use a different email."
             })
 
-        }else if(newProps.login.msg === "badPassword"){
+        } else if (newProps.login.msg === "badPassword") {
             this.setState({
                 showAlert: true,
                 title: "Incorrect Password",
                 text: "This password does not match the email. Please try again."
             })
-        }else if(newProps.login.msg === "loginSuccess"){
-            this.props.history.push('/') //Need to change link to dashboard once built
+        } else if (newProps.login.msg === "loginSuccess") {
+            const Toast = Swal.mixin({
+                toast: true,
+                position: 'top-end',
+                showConfirmButton: false,
+                timer: 3000
+              });
+              
+              Toast.fire({
+                type: 'success',
+                title: 'Signed in successfully'
+              })
+            this.props.history.push('/dashboard') //Need to change link to dashboard once built
         }
     }
 
-    loginSubmit= (event)=>{
+    loginSubmit = (event) => {
         event.preventDefault()
         const email = event.target[0].value
         const password = event.target[1].value
@@ -43,8 +56,8 @@ class Login extends Component{
         })
     }
 
-    render(){
-        return(
+    render() {
+        return (
             <main>
                 <SweetAlert
                     show={this.state.showAlert}
@@ -77,7 +90,7 @@ class Login extends Component{
                     </div>
                 </div>
             </main>
-        )  
+        )
     }
 }
 function mapStatetoProps(state) {

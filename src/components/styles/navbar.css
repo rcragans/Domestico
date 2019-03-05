@@ -1,0 +1,15 @@
+.banana{
+   width:100px;
+   display:flex;
+   flex-direction: column;
+   z-index: 5;
+   transition: 1000ms 
+}
+
+.banana.closed{
+    width:0;
+    overflow: hidden;
+    transition: 1000ms;
+    z-index: 5;
+}
+

@@ -5,6 +5,10 @@ import Home from './components/Home'
 import NavBar from './components/NavBar';
 import Register from './components/Register'
 import Login from './components/Login'
+import Dashboard from './components/Dashboard'
+import Roommate from './components/Roommate'
+import Expense from './components/Expense'
+import Payment from './components/Payment'
 
 class App extends Component {
   render() {
@@ -16,6 +20,10 @@ class App extends Component {
             <Route exact path="/" component={Home} />
             <Route exact path ="/register" component={Register} />
             <Route exact path ="/login" component={Login} />
+            <Route exact path ="/dashboard" component={Dashboard} />
+            <Route exact path ="/roommates" component={Roommate} />
+            <Route exact path ="/expenses" component ={Expense} />
+            <Route exact path ="/payments" component ={Payment} />
           </div>
         </div>
       </Router>
