@@ -28,6 +28,26 @@ router.post('/register', (req, res) => {
   })
 })
 
+router.post('/roommates',(req,res)=>{
+  const insertRoommateQuery = `INSERT INTO household (firstName, lastName, email)
+  VALUES (?,?,?)`
+  connection.query(insertRoommateQuery, [req.body.firstName,req.body.lastName,req.body.email],(error,results)=>{
+    res.json({
+      msg:"roommateAdded"
+    })
+  })
+})
+
+router.post('/expenses',(req,res)=>{
+  const insertExpenseQuery = `INSERT INTO expenses (name,date,amount)
+  VALUES (?,?,?)`
+  connection.query(insertExpenseQuery,[req.body.name,req.body.date,req.body.amount],(error,results)=>{
+    res.json({
+      msg:"expenseAdded"
+    })
+  })
+})
+
 router.post('/login', (req, res) => {
   const email = req.body.email
   const password = req.body.password

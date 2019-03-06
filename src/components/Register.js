@@ -63,22 +63,22 @@ class Register extends Component {
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">account_circle</i>
                                     <input id="icon_prefix" type="text" name="firstName" className="validate" />
-                                    <label htmlfor="icon_prefix">First Name</label>
+                                    <label htmlFor="icon_prefix">First Name</label>
                                 </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">account_circle</i>
                                     <input id="icon_prefix" type="text" name="lastName" className="validate" />
-                                    <label htmlfor="icon_prefix">Last Name</label>
+                                    <label htmlFor="icon_prefix">Last Name</label>
                                 </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">email</i>
                                     <input id="icon_email" type="email" name="email" className="validate" />
-                                    <label htmlfor="icon_email">Email</label>
+                                    <label htmlFor="icon_email">Email</label>
                                 </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">lock</i>
                                     <input id="icon_prefix" type="password" name="password" className="form-control" />
-                                    <label htmlfor="icon_prefix">Password</label>
+                                    <label htmlFor="icon_prefix">Password</label>
                                 </div>
                                 <div>
                                     <button className="btn green darken-2 waves-effect waves-light" type="submit" name="action">Register

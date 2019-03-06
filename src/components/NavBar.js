@@ -43,7 +43,7 @@ class NavBar extends Component {
 
                             </ul>
                             <div className="right">
-                                <button class="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
+                                <button className="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
                             </div>
                         </div>
                     </nav>
@@ -56,7 +56,7 @@ class NavBar extends Component {
                     <li><Link to="/register">Register</Link></li>
                 </ul>
                 <div className="right">
-                    <button class="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
+                    <button className="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
                 </div>
             </span>
 

@@ -12,7 +12,9 @@ class Login extends Component {
         super()
         this.state = {
             msg: "",
-            showAlert: false
+            showAlert: false,
+            title:"",
+            text:""
         }
     }
 
