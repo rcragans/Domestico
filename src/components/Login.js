@@ -44,7 +44,7 @@ class Login extends Component {
                 type: 'success',
                 title: 'Signed in successfully'
               })
-            this.props.history.push('/dashboard') //Need to change link to dashboard once built
+            this.props.history.push('/dashboard')
         }
     }
 

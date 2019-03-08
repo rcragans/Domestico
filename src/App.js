@@ -9,6 +9,7 @@ import Dashboard from './components/Dashboard'
 import Roommate from './components/Roommate'
 import Expense from './components/Expense'
 import Payment from './components/Payment'
+import Logout from './components/Logout'
 
 class App extends Component {
   render() {
@@ -24,6 +25,7 @@ class App extends Component {
             <Route exact path ="/roommates" component={Roommate} />
             <Route exact path ="/expenses" component ={Expense} />
             <Route exact path ="/payments" component ={Payment} />
+            <Route exact path ="/logout" component={Logout} />
           </div>
         </div>
       </Router>
