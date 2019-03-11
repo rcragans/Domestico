@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import DashTable from './DashTable'
 
 class Dashboard extends Component{
     constructor(){
@@ -7,7 +8,10 @@ class Dashboard extends Component{
     }
     render(){
         return(
+            <div>
             <h1>Dashboard</h1>
+            <DashTable  />
+            </div>
         )
     }
 }

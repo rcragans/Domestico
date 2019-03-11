@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import roommateAction from '../actions/roommateAction'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
+import Swal from 'sweetalert2'
+import RoommateTable from './RoommateTable'
 
 
 class Roommate extends Component {
@@ -12,74 +14,83 @@ class Roommate extends Component {
         this.state = {
             msg: "",
             showAlert: false,
-            title:"",
-            text:""
+            title: "",
+            text: ""
         }
     }
 
-    componentWillReceiveProps(newProps){
-        if (newProps.roommate.msg === "roommateAdded"){
+    componentWillReceiveProps(newProps) {
+        if (newProps.roommate.msg === "roommateAdded") {
             this.setState({
-                showAlert:true,
-                title:"Roommate Added",
+                showAlert: true,
+                title: "Roommate Added",
                 text: "Roommate has been succesfully added!"
             })
         }
     }
 
-    roommateSubmit = (event)=>{
+    roommateSubmit = (event) => {
         event.preventDefault()
         const firstName = event.target[0].value
         const lastName = event.target[1].value
         const email = event.target[2].value
-        this.props.roommateAction({
-            firstName,
-            lastName,
-            email
-        })
+        if (firstName === "" || lastName === "" || email === "") {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'All fields are required.',
+            })
+        }else {
+            this.props.roommateAction({
+                firstName,
+                lastName,
+                email,
+            })  
+        }
     }
-    render() {
-        return (
-            <main>
-                <SweetAlert
-                    show={this.state.showAlert}
-                    title={this.state.title}
-                    text={this.state.text}
-                    onConfirm={() => this.setState({ showAlert: false })}
-                />
-                <div className="register container" >
-                    <div className="row">
-                        <h4>Add Roommate</h4>
-                        <form className="col s12" onSubmit={this.roommateSubmit}>
-                            <div className="row">
-                                <div className="input-field col s6">
-                                    <i className="material-icons prefix">account_circle</i>
-                                    <input id="icon_prefix" type="text" name="firstName" className="validate" />
-                                    <label htmlFor="icon_prefix">First Name</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <i className="material-icons prefix">account_circle</i>
-                                    <input id="icon_prefix" type="text" name="lastName" className="validate" />
-                                    <label htmlFor="icon_prefix">Last Name</label>
-                                </div>
-                                <div className="input-field col s6">
-                                    <i className="material-icons prefix">email</i>
-                                    <input id="icon_email" type="email" name="email" className="validate" />
-                                    <label htmlFor="icon_email">Email</label>
-                                </div>
-                                <div>
-                                    <button className="btn green darken-2 waves-effect waves-light" type="submit" name="action">Add Roommate
+        render() {
+            return (
+                <main>
+                    <SweetAlert
+                        show={this.state.showAlert}
+                        title={this.state.title}
+                        text={this.state.text}
+                        onConfirm={() => this.setState({ showAlert: false })}
+                    />
+                    <div className="register container" >
+                        <div className="row">
+                            <h4>Add Roommate</h4>
+                            <form className="col s12" onSubmit={this.roommateSubmit}>
+                                <div className="row">
+                                    <div className="input-field col s6">
+                                        <i className="material-icons prefix">account_circle</i>
+                                        <input id="icon_prefix" type="text" name="firstName" className="validate" />
+                                        <label htmlFor="icon_prefix">First Name</label>
+                                    </div>
+                                    <div className="input-field col s6">
+                                        <i className="material-icons prefix">account_circle</i>
+                                        <input id="icon_prefix" type="text" name="lastName" className="validate" />
+                                        <label htmlFor="icon_prefix">Last Name</label>
+                                    </div>
+                                    <div className="input-field col s6">
+                                        <i className="material-icons prefix">email</i>
+                                        <input id="icon_email" type="email" name="email" className="validate" />
+                                        <label htmlFor="icon_email">Email</label>
+                                    </div>
+                                    <div>
+                                        <button className="btn green darken-2 waves-effect waves-light" type="submit" name="action">Add Roommate
                                     <i className="material-icons right">send</i>
-                                    </button>
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                        </form>
+                            </form>
+                        </div>
                     </div>
-                </div>
-            </main>
-        )
+                    <RoommateTable />
+                </main>
+            )
+        }
     }
-}
 
 function mapStatetoProps(state) {
     return {

@@ -4,15 +4,14 @@ import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import loginAction from '../actions/loginAction'
 import './styles/navbar.css'
-
+import logoutAction from '../actions/logoutAction'
 
 class NavBar extends Component {
     constructor() {
         super()
         this.state = {
             msg: "",
-            navbarClosed: false
-
+            navbarClosed: false,
         }
     }
 
@@ -20,7 +19,11 @@ class NavBar extends Component {
         this.setState({
             navbarClosed: !this.state.navbarClosed
         })
-
+        setTimeout(
+            ()=>{this.setState({
+                navbarClosed: !this.state.navbarClosed
+            })},2000
+        )
     }
 
 
@@ -48,7 +51,8 @@ class NavBar extends Component {
                         </div>
                     </nav>
                 </span>
-        } else {
+        } else{
+            console.log(this.props.logout.msg)
             rightNav = <span>
                 <li className="center brand-logo">Dome<b>stico</b></li>
                 <ul id="nav-mobile" className={`green right banana ${this.state.navbarClosed ? '' : 'closed'}`}>
@@ -61,6 +65,7 @@ class NavBar extends Component {
             </span>
 
         }
+
         return (
             <div className="navbar">
                 <nav>
@@ -74,12 +79,14 @@ class NavBar extends Component {
 }
 function mapStatetoProps(state) {
     return {
-        login: state.login
+        login: state.login,
+        logout: state.logout
     }
 }
 function mapDispatchtoProps(dispatcher) {
     return bindActionCreators({
-        loginAction: loginAction
+        loginAction: loginAction,
+        logoutAction: logoutAction
     }, dispatcher)
 }
 

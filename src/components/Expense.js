@@ -4,6 +4,8 @@ import { bindActionCreators } from 'redux';
 import expenseAction from '../actions/expenseAction'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
+import Swal from 'sweetalert2'
+import ExpenseTable from './ExpenseTable'
 
 class Expense extends Component{
     constructor(){
@@ -30,11 +32,19 @@ class Expense extends Component{
         const expenseName = event.target[0].value
         const amount = event.target[1].value
         const date = event.target[2].value
-        this.props.expenseAction({
-            expenseName,
-            amount,
-            date
-        })
+        if (expenseName === "" || amount === "" || date === "") {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'All fields are required.',
+            })
+        }else {
+            this.props.expenseAction({
+                expenseName,
+                amount,
+                date
+            })  
+        }
     }
     render(){
         return(
@@ -74,6 +84,7 @@ class Expense extends Component{
                         </form>
                     </div>
                 </div>
+                <ExpenseTable />
             </main>
         )
     }

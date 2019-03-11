@@ -4,7 +4,7 @@ import { bindActionCreators } from 'redux';
 import registerAction from '../actions/registerAction'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
-
+import Swal from 'sweetalert2'
 
 class Register extends Component {
     constructor() {
@@ -21,7 +21,7 @@ class Register extends Component {
                 showAlert: true,
                 title: "Registration Error",
                 text: "Email is already registered. Login or choose a different email.",
-                
+
             })
         } else if (newProps.register.msg === 'userAdded') {
             this.setState({
@@ -38,12 +38,20 @@ class Register extends Component {
         const lastName = event.target[1].value
         const email = event.target[2].value
         const password = event.target[3].value
-        this.props.registerAction({
-            firstName,
-            lastName,
-            email,
-            password
-        })
+        if (firstName === "" || lastName === "" || email ==="" || password === "") {
+            Swal.fire({
+                type: 'error',
+                title: 'Oops...',
+                text: 'All fields are required.',
+            })
+        } else {
+            this.props.registerAction({
+                firstName,
+                lastName,
+                email,
+                password
+            })
+        }
     }
 
     render() {
