@@ -179,24 +179,35 @@ router.post('/dashboard', (req, res) => {
       if (error2) { throw error2 }
       // console.log(results2)
       let avgPrice = results2.map((avgPrice) => {
-        // console.log(avgPrice.avgPrice)
+        // console.log(avgPrice)
         return ([Number(avgPrice.avgPrice), avgPrice.firstName])
       })
-      paymentQuery = `SELECT * FROM payments WHERE hid IN (SELECT household.id FROM household INNER JOIN users on users.id = household.uid WHERE users.id = ?)`
+      paymentQuery = `
+      SELECT sum(amount) as amount, MAX(hid) as hid, MAX(household.firstName) as firstName FROM payments  
+          INNER JOIN household on household.id = payments.hid 
+          WHERE hid IN 
+            (SELECT household.id FROM household 
+              INNER JOIN users on users.id = household.uid 
+              WHERE users.id = ? ORDER BY hid desc)
+      GROUP BY firstName`
         connection.query(paymentQuery, [id], (error3, results3) => {
+          console.log(results3)
           var rid = results3.map((payment) => {
             let payment1 = payment.amount
             let hid = payment.hid
-            return ({ payment1, hid })
+            let firstName = payment.firstName
+            return ({ payment1, hid, firstName })
           })
+          console.log(avgPrice);
           console.log("rid is")
           console.log(rid)
+          
           let payment2 = rid.map((roommate, i) => {
-            // console.log(avgPrice[i][0])
-            // console.log(rid)
+            const avgPriceIndex = avgPrice.findIndex((rm)=>{return rm[1] === roommate.firstName})
+            console.log(avgPriceIndex)
             return ({
-              totalOwed: Number(avgPrice[i][0] -= roommate.payment1),
-              firstName: avgPrice[i][1]
+              totalOwed: Number(avgPrice[avgPriceIndex][0] -= roommate.payment1),
+              firstName: avgPrice[avgPriceIndex][1]
             })
           })
           console.log("payment2 is")
