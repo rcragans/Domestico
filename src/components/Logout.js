@@ -20,9 +20,10 @@ class Logout extends Component {
 
     logoutSubmit = (event) => {
         event.preventDefault()
+        this.props.logoutAction()
         const Toast = Swal.mixin({
             toast: true,
-            position: 'middle-end',
+            position: 'center',
             showConfirmButton: false,
             timer: 3000
         });

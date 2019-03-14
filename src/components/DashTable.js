@@ -1,6 +1,9 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import dashboardAction from '../actions/dashboardAction'
+
+
 
 class DashTable extends Component {
     constructor() {
@@ -10,20 +13,25 @@ class DashTable extends Component {
 
     render(){
         return(
-        <table className = "highlight centered bordered">
-          <thead>
-            <tr>
-                <th>Name</th>
-                <th>Owes</th>
-            </tr>
-          </thead>
-
-          <tbody>
-
-          </tbody>
-      </table>
+          <tr>
+            <td>{this.props.firstName}</td>
+            <td>${this.props.avgPrice}</td>
+          </tr>
         )
     }
 }
 
-export default DashTable
+function mapStatetoProps(state) {
+  return {
+      login: state.login,
+      dashboard: state.dashboard
+  }
+}
+function mapDispatchtoProps(dispatcher) {
+  return bindActionCreators({
+      dashboardAction: dashboardAction
+  }, dispatcher)
+}
+
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(DashTable)

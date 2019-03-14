@@ -35,7 +35,7 @@ class Login extends Component {
         } else if (newProps.login.msg === "loginSuccess") {
             const Toast = Swal.mixin({
                 toast: true,
-                position: 'middle-end',
+                position: 'center',
                 showConfirmButton: false,
                 timer: 3000
               });

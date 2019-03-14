@@ -1,46 +1,59 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import getExpensesAction from '../actions/getExpensesAction'
+import deleteExpenseAction from '../actions/deleteExpenseAction'
+import expenseAction from '../actions/expenseAction'
+
 
 class ExpenseTable extends Component {
-    constructor() {
-        super()
-        this.state = {}
-    }
+  constructor() {
+    super()
+    this.state = {}
+  }
 
-    render(){
-        return(
-            <table className = "highlight centered bordered">
-        <thead>
-          <tr>
-              <th>Name</th>
-              <th>Date</th>
-              <th>Amount</th>
-              <th>Edit</th>
-              <th>Delete</th>
-          </tr>
-        </thead>
+  deleteExpense = (event) => {
+    event.preventDefault()
+    this.props.deleteExpenseAction({
+      id: this.props.expense.id
+    })
+  }
 
-        <tbody>
-          <tr>
-            <td>Rent</td>
-            <td>3/1/2019</td>
-            <td>$1000</td>
-            <td>
-                <button class="btn green darken-2 waves-effect waves-light" type="submit" name="action">Edit
-                    <i class="material-icons right">edit</i>
-                </button>
-            </td>
-            <td>
-                <button class="btn red waves-effect waves-light" type="submit" name="action">Delete
-                    <i class="material-icons right">delete_forever</i>
-                </button>
-            </td>
-          </tr>
-        </tbody>
-      </table>
-        )
-    }
+  render() {
+    const expense = this.props.expense
+    return (
+      <tr>
+        <td>
+          {expense.name}
+        </td>
+        <td>
+          {expense.date}
+        </td>
+        <td>
+          ${expense.amount}
+        </td>
+        <td>
+          <button onClick={this.deleteExpense} className="btn red waves-effect waves-light" type="submit" name="action">Delete
+                    <i className="material-icons right">delete_forever</i>
+          </button>
+        </td>
+      </tr>
+    )
+  }
 }
 
-export default ExpenseTable
+function mapStatetoProps(state) {
+  return {
+    login: state.login,
+  }
+}
+function mapDispatchtoProps(dispatcher) {
+  return bindActionCreators({
+    getExpensesAction: getExpensesAction,
+    deleteExpenseAction: deleteExpenseAction,
+    expenseAction: expenseAction
+  }, dispatcher)
+}
+
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(ExpenseTable)

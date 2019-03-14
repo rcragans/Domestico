@@ -6,6 +6,7 @@ import loginAction from '../actions/loginAction'
 import './styles/navbar.css'
 import logoutAction from '../actions/logoutAction'
 
+
 class NavBar extends Component {
     constructor() {
         super()
@@ -20,9 +21,11 @@ class NavBar extends Component {
             navbarClosed: !this.state.navbarClosed
         })
         setTimeout(
-            ()=>{this.setState({
-                navbarClosed: !this.state.navbarClosed
-            })},2000
+            () => {
+                this.setState({
+                    navbarClosed: !this.state.navbarClosed
+                })
+            }, 2000
         )
     }
 
@@ -51,19 +54,18 @@ class NavBar extends Component {
                         </div>
                     </nav>
                 </span>
-        } else{
-            console.log(this.props.logout.msg)
-            rightNav = <span>
-                <li className="center brand-logo">Dome<b>stico</b></li>
-                <ul id="nav-mobile" className={`green right banana ${this.state.navbarClosed ? '' : 'closed'}`}>
-                    <li><Link to="/login">Login</Link></li>
-                    <li><Link to="/register">Register</Link></li>
-                </ul>
-                <div className="right">
-                    <button className="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
-                </div>
-            </span>
-
+        } else {
+            rightNav =
+                <span>
+                    <li className="center brand-logo">Dome<b>stico</b></li>
+                    <ul id="nav-mobile" className={`green right banana ${this.state.navbarClosed ? '' : 'closed'}`}>
+                        <li><Link to="/login">Login</Link></li>
+                        <li><Link to="/register">Register</Link></li>
+                    </ul>
+                    <div className="right">
+                        <button className="waves-effect waves-light btn green" onClick={this.sideNav}>Menu</button>
+                    </div>
+                </span>
         }
 
         return (
@@ -81,12 +83,14 @@ function mapStatetoProps(state) {
     return {
         login: state.login,
         logout: state.logout
+
     }
 }
 function mapDispatchtoProps(dispatcher) {
     return bindActionCreators({
         loginAction: loginAction,
         logoutAction: logoutAction
+
     }, dispatcher)
 }
 

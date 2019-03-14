@@ -10,6 +10,7 @@ class Register extends Component {
     constructor() {
         super()
         this.state = {
+            title:"",
             msg: "",
             showAlert: false
         }
@@ -75,7 +76,7 @@ class Register extends Component {
                                 </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">account_circle</i>
-                                    <input id="icon_prefix" type="text" name="lastName" className="validate" />
+                                    <input id="icon_prefix2" type="text" name="lastName" className="validate" />
                                     <label htmlFor="icon_prefix">Last Name</label>
                                 </div>
                                 <div className="input-field col s6">
@@ -85,7 +86,7 @@ class Register extends Component {
                                 </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">lock</i>
-                                    <input id="icon_prefix" type="password" name="password" className="form-control" />
+                                    <input id="icon_prefix3" type="password" name="password" className="form-control" />
                                     <label htmlFor="icon_prefix">Password</label>
                                 </div>
                                 <div>

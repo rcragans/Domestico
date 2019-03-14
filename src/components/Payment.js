@@ -5,8 +5,7 @@ import paymentAction from '../actions/paymentAction'
 import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
 import Swal from 'sweetalert2'
-import ExpenseTable from './ExpenseTable'
-
+import getRoommateAction from '../actions/getRoommateAction'
 
 class Payment extends Component{
     constructor(){
@@ -18,6 +17,16 @@ class Payment extends Component{
             text:""
         }
     }
+
+componentDidUpdate(){
+
+}
+
+
+componentDidMount(){
+      this.props.getRoommateAction({ token: this.props.login.token })  
+}
+
     componentWillReceiveProps(newProps){
         if (newProps.payment.msg === "paymentAdded"){
             this.setState({
@@ -26,13 +35,18 @@ class Payment extends Component{
                 text: "Payment has been succesfully added!"
             })
         }
+        setTimeout(()=>{
+                var elems = document.querySelectorAll('select');
+                var instances = window.M.FormSelect.init(elems);
+        },1000)
+        
     }
     paymentSubmit = (event)=>{
         event.preventDefault()
-        const roommateName = event.target[0].value
-        const amount = event.target[1].value
-        const date = event.target[2].value
-        if (roommateName === "" || amount === "" || date === "") {
+        const amount = event.target[2].value
+        const date = event.target[3].value
+        const name = document.getElementById("selectName").value
+        if (amount === "" || date === "") {
             Swal.fire({
                 type: 'error',
                 title: 'Oops...',
@@ -40,14 +54,25 @@ class Payment extends Component{
             })
         }else {
             this.props.paymentAction({
-                roommateName,
                 amount,
-                date
+                date,
+                hid: this.props.roommate.id,
+                token: this.props.login.token,
+                name
             })
         }
     }
 
     render(){
+        
+        var roommates = this.props.roommate.map((roommate, i) =>{
+            
+            return(
+            <option key={i} value={roommate.firstName}>{roommate.firstName}</option>
+        
+            ) 
+        })
+    
         return(
             <main>
                 <SweetAlert
@@ -61,11 +86,13 @@ class Payment extends Component{
                         <h4>Add Payment</h4>
                         <form className="col s12" onSubmit={this.paymentSubmit}>
                             <div className="row">
-                                <div className="input-field col s6">
-                                    <i className="material-icons prefix">account_circle</i>
-                                    <input id="icon_prefix" type="text" name="roommateName" className="validate" />
-                                    <label htmlFor="icon_prefix">Roommate</label>
-                                </div>
+                            <div className="input-field col s12">
+                                <select name="name" id="selectName">
+                                    <option value="" disabled defaultValue>Choose Roommate</option>
+                                    {roommates}
+                                </select>
+                                <label>Roommate</label>
+                            </div>
                                 <div className="input-field col s6">
                                     <i className="material-icons prefix">attach_money</i>
                                     <input id="icon_prefix" type="text" name="amount" className="validate" />
@@ -85,7 +112,7 @@ class Payment extends Component{
                         </form>
                     </div>
                 </div>
-                <ExpenseTable />
+                
             </main>
         )
     }
@@ -93,12 +120,15 @@ class Payment extends Component{
 
 function mapStatetoProps(state) {
     return {
-        payment: state.payment
+        payment: state.payment,
+        login: state.login,
+        roommate: state.roommate
     }
 }
 function mapDispatchtoProps(dispatcher) {
     return bindActionCreators({
-        paymentAction: paymentAction
+        paymentAction: paymentAction,
+        getRoommateAction: getRoommateAction
     }, dispatcher)
 }
 

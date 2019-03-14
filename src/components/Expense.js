@@ -6,6 +6,7 @@ import SweetAlert from 'sweetalert-react'
 import 'sweetalert/dist/sweetalert.css'
 import Swal from 'sweetalert2'
 import ExpenseTable from './ExpenseTable'
+import getExpensesAction from '../actions/getExpensesAction'
 
 class Expense extends Component{
     constructor(){
@@ -17,7 +18,12 @@ class Expense extends Component{
             text:""
         }
     }
+
+    componentDidMount() {
+        this.props.getExpensesAction({ token: this.props.login.token })
+    }
     componentWillReceiveProps(newProps){
+        console.log(newProps)
         if (newProps.expense.msg === "expenseAdded"){
             this.setState({
                 showAlert:true,
@@ -25,7 +31,21 @@ class Expense extends Component{
                 text: "Expense has been succesfully added!"
             })
         }
+        else if(newProps.expense.msg === "expenseDeleted"){
+            this.setState({
+                showAlert:true,
+                title:"Expense Deleted",
+                text: "Expense has been succesfully deleted!"
+            })
+        }
+        console.log(newProps.expense)
+        if (this.props.expense.length !== newProps.expense.length){
+            this.props.getExpensesAction({ token: this.props.login.token })
+        }
     }
+        
+        
+    
 
     expenseSubmit = (event)=>{
         event.preventDefault()
@@ -42,11 +62,18 @@ class Expense extends Component{
             this.props.expenseAction({
                 expenseName,
                 amount,
-                date
+                date,
+                token: this.props.login.token
             })  
         }
     }
+    
     render(){
+        if(this.props.expense.length >= 0){
+            var expenses = this.props.expense.map((expense, i) =>
+                <ExpenseTable key={i} expense={expense} history={this.props.history} />
+            )
+        }
         return(
             <main>
                 <SweetAlert
@@ -84,7 +111,19 @@ class Expense extends Component{
                         </form>
                     </div>
                 </div>
-                <ExpenseTable />
+                <table className = "highlight centered">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Date</th>
+                            <th>Amount</th>
+                            <th>Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {expenses}
+                    </tbody>
+                </table>
             </main>
         )
     }
@@ -92,12 +131,14 @@ class Expense extends Component{
 
 function mapStatetoProps(state) {
     return {
-        expense: state.expense
+        expense: state.expense,
+        login: state.login
     }
 }
 function mapDispatchtoProps(dispatcher) {
     return bindActionCreators({
-        expenseAction: expenseAction
+        expenseAction: expenseAction,
+        getExpensesAction: getExpensesAction
     }, dispatcher)
 }
 

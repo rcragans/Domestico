@@ -4,7 +4,9 @@ import loginReducer from './loginReducer'
 import roommateReducer from './roommateReducer'
 import expenseReducer from './expenseReducer'
 import paymentReducer from './paymentReducer'
-import logoutReducer from './logoutReducer'
+import dashboardReducer from './dashboardReducer';
+
+
 
 const rootReducer = combineReducers({
     register: registerReducer,
@@ -12,7 +14,8 @@ const rootReducer = combineReducers({
     roommate: roommateReducer,
     expense: expenseReducer,
     payment: paymentReducer,
-    logout: logoutReducer
+    dashboard: dashboardReducer
+    
 
 })
 

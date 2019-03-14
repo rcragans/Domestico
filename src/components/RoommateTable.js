@@ -1,6 +1,10 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
+import roommateAction from '../actions/roommateAction'
+import getRoommateAction from '../actions/getRoommateAction'
+import deleteRoommateAction from '../actions/deleteRoommateAction'
+
 
 class RoommateTable extends Component {
     constructor() {
@@ -8,38 +12,42 @@ class RoommateTable extends Component {
         this.state = {}
     }
 
-    render(){
-        return(
-            <table className = "highlight centered bordered">
-        <thead>
-          <tr>
-              <th>First Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Edit</th>
-              <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody>
+    deleteRoommate = (event)=>{
+        event.preventDefault()
+        this.props.deleteRoommateAction({
+            id: this.props.roommate.id
+        })
+    }
+
+    render() {
+        const roommate = this.props.roommate
+        return (
             <tr>
-                <td>Kayla</td>
-                <td>Cox</td>
-                <td>Kcox925@gmail.com</td>
+                <td>{roommate.firstName}</td>
+                <td>{roommate.lastName}</td>
+                <td>{roommate.email}</td>
                 <td>
-                    <button class="btn green darken-2 waves-effect waves-light" type="submit" name="action">Edit
-                        <i class="material-icons right">edit</i>
-                    </button>
-                </td>
-                <td>
-                    <button class="btn red waves-effect waves-light" type="submit" name="action">Delete
-                        <i class="material-icons right">delete_forever</i>
+                    <button onClick={this.deleteRoommate} className="btn red waves-effect waves-light" type="submit" name="action">Delete
+                        <i className="material-icons right">delete_forever</i>
                     </button>
                 </td>
             </tr>
-        </tbody>
-      </table>
         )
     }
 }
 
-export default RoommateTable
+function mapStatetoProps(state) {
+    return {
+        login: state.login
+    }
+}
+function mapDispatchtoProps(dispatcher) {
+    return bindActionCreators({
+        roommateAction: roommateAction,
+        getRoommateAction: getRoommateAction,
+        deleteRoommateAction: deleteRoommateAction
+    }, dispatcher)
+}
+
+
+export default connect(mapStatetoProps, mapDispatchtoProps)(RoommateTable)
